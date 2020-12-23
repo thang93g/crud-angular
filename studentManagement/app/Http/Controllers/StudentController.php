@@ -92,9 +92,9 @@ class StudentController extends Controller
         $student->delete();
     }
 
-    public function search(Request $request)
+    public function search( $keyword)
     {
-        $students = Student::where('name','LIKE','%'.$request->keyword.'%')->get();
+        $students = Student::where('name','LIKE','%'.$keyword.'%')->get();
         return response()->json($students);
     }
 }

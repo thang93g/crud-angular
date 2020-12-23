@@ -58,13 +58,13 @@ class GroupController extends Controller
         $group->delete();
     }
 
-    public function search(Request $request)
+    public function search($keyword)
     {
-        if ($request->keyword == '') {
-            $groups = Group::all();
-        } else {
-            $groups = Group::where('name', 'LIKE', '%' . $request->keyword . '%')->get();
-        }
-        return response()->json($groups);
+        // if ($request->keyword == '') {
+        //     $groups = Group::all();
+        // } else {
+            $group = Group::where('name', 'LIKE', '%' . $keyword . '%')->get();
+        // }
+        return response()->json($group);
     }
 }

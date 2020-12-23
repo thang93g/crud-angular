@@ -20,7 +20,7 @@ Route::prefix('groups')->group(function(){
     Route::post('store','GroupController@store');
     Route::put('update/{id}','GroupController@update');
     Route::delete('delete/{id}','GroupController@destroy');
-    Route::post('search','GroupController@search');
+    Route::get('search/{keyword}','GroupController@search');
 });
 
 Route::prefix('students')->group(function(){
@@ -29,5 +29,5 @@ Route::prefix('students')->group(function(){
     Route::post('store','StudentController@store');
     Route::put('update/{id}','StudentController@update');
     Route::delete('delete/{id}','StudentController@destroy');
-    Route::post('search','StudentController@search');
+    Route::get('search/{keyword}','StudentController@search');
 });
