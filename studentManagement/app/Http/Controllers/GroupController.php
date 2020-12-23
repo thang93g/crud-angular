@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
-     
+
     public function index()
     {
         $groups = Group::all();
@@ -56,5 +56,11 @@ class GroupController extends Controller
     {
         $group = Group::find($id);
         $group->delete();
+    }
+
+    public function search(Request $request)
+    {
+        $groups = Group::where('name','LIKE','%'.$request->keyword.'%')->get();
+        return response()->json($groups);
     }
 }

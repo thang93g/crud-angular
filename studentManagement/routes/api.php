@@ -20,6 +20,7 @@ Route::prefix('groups')->group(function(){
     Route::post('store','GroupController@store');
     Route::put('update/{id}','GroupController@update');
     Route::delete('delete/{id}','GroupController@destroy');
+    Route::post('search','GroupController@search');
 });
 
 Route::prefix('students')->group(function(){
