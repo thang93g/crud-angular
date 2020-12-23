@@ -37,13 +37,13 @@ class GroupController extends Controller
     }
 
 
-    public function edit( $id)
+    public function edit($id)
     {
         //
     }
 
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $group = Group::find($id);
         $group->fill($request->all());
@@ -60,7 +60,11 @@ class GroupController extends Controller
 
     public function search(Request $request)
     {
-        $groups = Group::where('name','LIKE','%'.$request->keyword.'%')->get();
+        if ($request->keyword == '') {
+            $groups = Group::all();
+        } else {
+            $groups = Group::where('name', 'LIKE', '%' . $request->keyword . '%')->get();
+        }
         return response()->json($groups);
     }
 }
