@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -14,7 +15,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = DB::table('students')
+        ->join('groups','group_id','=','groups.id')
+        ->select('students.*','groups.name as group')
+        ->get();
         return response()->json($students);
     }
 
@@ -72,7 +76,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $student = Student::find($id);
         $student->fill($request->all());
@@ -92,9 +96,13 @@ class StudentController extends Controller
         $student->delete();
     }
 
-    public function search( $keyword)
+    public function search($keyword)
     {
-        $students = Student::where('name','LIKE','%'.$keyword.'%')->get();
+        $students = DB::table('students')
+        ->join('groups','group_id','=','groups.id')
+        ->select('students.*','groups.name as group')
+        ->where('name', 'LIKE', '%' . $keyword . '%')
+        ->get();
         return response()->json($students);
     }
 }

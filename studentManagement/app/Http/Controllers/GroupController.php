@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -33,7 +35,12 @@ class GroupController extends Controller
     public function show($id)
     {
         $group = Group::find($id);
-        return response()->json($group);
+        $students = DB::table('students')->where('group_id', '=', $id)->get();
+        $array = [
+            'group' => $group,
+            'students' => $students,
+        ];
+        return response()->json($array);
     }
 
 
@@ -54,17 +61,14 @@ class GroupController extends Controller
 
     public function destroy($id)
     {
+        Student::where('group_id', '=', $id)->delete();
         $group = Group::find($id);
         $group->delete();
     }
 
     public function search($keyword)
     {
-        // if ($request->keyword == '') {
-        //     $groups = Group::all();
-        // } else {
-            $group = Group::where('name', 'LIKE', '%' . $keyword . '%')->get();
-        // }
+        $group = Group::where('name', 'LIKE', '%' . $keyword . '%')->get();
         return response()->json($group);
     }
 }
